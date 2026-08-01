@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Quest | เส้นทางสู่อาชีพและการเงิน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landing" class="page active">
+    <div class="bg-animation">
+      <div class="city-skyline"></div>
+      <div class="floating-icons">
+        <span>💰</span><span>📈</span><span>🎯</span><span>💼</span><span>🏆</span>
+        <span>📚</span><span>💡</span><span>⭐</span>
+      </div>
+    </div>
+    <div class="landing-content">
+      <div class="logo-area">
+        <div class="logo">
+          <span class="logo-icon">🎓</span>
+          <h1>Career <span>Quest</span></h1>
+          <p class="tagline">เส้นทางสู่อาชีพและการเงิน</p>
+        </div>
+        <p class="subtitle">เกมวางแผนชีวิต พิชิตอนาคต • เรียนรู้การเงิน การออม การลงทุน และการเลือกอาชีพ</p>
+      </div>
+      <div class="menu-buttons">
+        <button class="btn btn-primary" onclick="showPage('create-room')">
+          <span class="btn-icon">🏠</span> สร้างห้อง (Create Room)
+        </button>
+        <button class="btn btn-secondary" onclick="showPage('join-room')">
+          <span class="btn-icon">🚪</span> เข้าร่วมห้อง (Join Room)
+        </button>
+        <button class="btn btn-outline" onclick="showPage('how-to-play')">
+          <span class="btn-icon">📖</span> วิธีเล่น (How to Play)
+        </button>
+        <button class="btn btn-outline" onclick="showPage('about')">
+          <span class="btn-icon">ℹ️</span> เกี่ยวกับเกม (About)
+        </button>
+      </div>
+      <div class="features-preview">
+        <div class="feature-card"><span>💰</span> วางแผนการเงิน</div>
+        <div class="feature-card"><span>🏦</span> ออม & ลงทุน</div>
+        <div class="feature-card"><span>👔</span> เลือกอาชีพ</div>
+        <div class="feature-card"><span>📊</span> Success Score</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Room -->
+  <div id="create-room" class="page">
+    <div class="page-container glass">
+      <button class="back-btn" onclick="showPage('landing')">← กลับ</button>
+      <h2>🏠 สร้างห้องใหม่</h2>
+      <div class="form-group">
+        <label>ชื่อห้อง</label>
+        <input type="text" id="room-name" placeholder="เช่น ห้องเรียน ม.3/1" maxlength="30">
+      </div>
+      <div class="form-group">
+        <label>จำนวนผู้เล่น (3-5 คน)</label>
+        <div class="player-count">
+          <button onclick="changePlayerCount(-1)">−</button>
+          <span id="player-count">4</span>
+          <button onclick="changePlayerCount(1)">+</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ชื่อของคุณ (Host)</label>
+        <input type="text" id="host-name" placeholder="ใส่ชื่อเล่น" maxlength="20">
+      </div>
+      <button class="btn btn-primary full" onclick="createRoom()">สร้างห้อง & รับรหัส</button>
+      <div id="room-created" class="hidden">
+        <div class="room-code-display">
+          <p>รหัสห้องของคุณ</p>
+          <h1 id="generated-code">----</h1>
+          <button class="btn btn-sm" onclick="copyCode()">คัดลอกรหัส</button>
+        </div>
+        <div class="players-waiting" id="waiting-players"></div>
+        <button class="btn btn-success full" id="start-game-btn" onclick="startGame()" disabled>เริ่มเกม (รอผู้เล่นอย่างน้อย 2 คน)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Join Room -->
+  <div id="join-room" class="page">
+    <div class="page-container glass">
+      <button class="back-btn" onclick="showPage('landing')">← กลับ</button>
+      <h2>🚪 เข้าร่วมห้อง</h2>
+      <div class="form-group">
+        <label>รหัสห้อง (Room Code)</label>
+        <input type="text" id="join-code" placeholder="เช่น AB29XZ" maxlength="6" style="text-transform:uppercase; letter-spacing:4px; font-size:1.5rem; text-align:center;">
+      </div>
+      <div class="form-group">
+        <label>ชื่อของคุณ</label>
+        <input type="text" id="join-name" placeholder="ใส่ชื่อเล่น" maxlength="20">
+      </div>
+      <button class="btn btn-primary full" onclick="joinRoom()">เข้าร่วมห้อง</button>
+    </div>
+  </div>
+
+  <!-- How to Play -->
+  <div id="how-to-play" class="page">
+    <div class="page-container glass wide">
+      <button class="back-btn" onclick="showPage('landing')">← กลับ</button>
+      <h2>📖 วิธีเล่น Career Quest</h2>
+      <div class="howto-grid">
+        <div class="howto-card">
+          <div class="num">1</div>
+          <h3>เลือกอาชีพ</h3>
+          <p>เลือกอาชีพที่ชอบ แต่ละอาชีพมีรายได้และโบนัสต่างกัน</p>
+        </div>
+        <div class="howto-card">
+          <div class="num">2</div>
+          <h3>ทอยลูกเต๋า</h3>
+          <p>เดินตามจำนวนที่ทอยได้บนกระดาน 40 ช่อง</p>
+        </div>
+        <div class="howto-card">
+          <div class="num">3</div>
+          <h3>จัดการเงิน</h3>
+          <p>ออม ลงทุน พัฒนาทักษะ รับมือเหตุการณ์</p>
+        </div>
+        <div class="howto-card">
+          <div class="num">4</div>
+          <h3>Success Score</h3>
+          <p>ชนะด้วยคะแนนรวม ไม่ใช่เงินมากที่สุด</p>
+        </div>
+      </div>
+      <div class="score-breakdown">
+        <h3>📊 ระบบคะแนน (100 คะแนน)</h3>
+        <div class="score-bars">
+          <div class="score-item"><span>💰 เงินออม</span><div class="bar" style="width:40%"></div><span>40</span></div>
+          <div class="score-item"><span>👔 อาชีพ</span><div class="bar" style="width:30%"></div><span>30</span></div>
+          <div class="score-item"><span>⭐ ทักษะ</span><div class="bar" style="width:20%"></div><span>20</span></div>
+          <div class="score-item"><span>😊 คุณภาพชีวิต</span><div class="bar" style="width:10%"></div><span>10</span></div>
+        </div>
+      </div>
+      <div class="tips">
+        <h3>💡 เคล็ดลับ</h3>
+        <ul>
+          <li>เล่นครบ 12 รอบ แล้วสรุปผล</li>
+          <li>ออมเงินไว้จะได้คะแนนสูง</li>
+          <li>พัฒนาทักษะเพื่อเลื่อนตำแหน่งและเพิ่มรายได้</li>
+          <li>ระวังเหตุการณ์ไม่คาดคิด!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div id="about" class="page">
+    <div class="page-container glass">
+      <button class="back-btn" onclick="showPage('landing')">← กลับ</button>
+      <h2>ℹ️ เกี่ยวกับเกม</h2>
+      <p class="about-text">
+        <strong>Career Quest</strong> เป็นเกมกระดานการศึกษา (Educational Board Game) 
+        ที่ออกแบบมาเพื่อให้เยาวชนได้เรียนรู้การวางแผนชีวิต การจัดการการเงิน 
+        การเลือกอาชีพ และการพัฒนาทักษะผ่านการเล่นที่สนุกและมีส่วนร่วม
+      </p>
+      <div class="about-goals">
+        <h3>🎯 วัตถุประสงค์</h3>
+        <ul>
+          <li>เรียนรู้การวางแผนการเงิน การออม และการลงทุน</li>
+          <li>เข้าใจการจัดการรายรับ-รายจ่าย</li>
+          <li>ฝึกการเลือกอาชีพและพัฒนาทักษะ</li>
+          <li>ฝึกการตัดสินใจในสถานการณ์จริง</li>
+        </ul>
+      </div>
+      <p class="inspired">แรงบันดาลใจจากเกม LIFE PLAN • วางแผนชีวิต พิชิตอนาคต</p>
+    </div>
+  </div>
+
+  <!-- Lobby (Waiting Room) -->
+  <div id="lobby" class="page">
+    <div class="page-container glass">
+      <h2>ห้อง: <span id="lobby-room-name"></span></h2>
+      <div class="room-code-display small">
+        รหัส: <strong id="lobby-code"></strong>
+      </div>
+      <div class="players-list" id="lobby-players"></div>
+      <p class="waiting-msg" id="lobby-status">รอ Host เริ่มเกม...</p>
+      <button class="btn btn-success full hidden" id="lobby-start-btn" onclick="startGame()">เริ่มเกม</button>
+    </div>
+  </div>
+
+  <!-- Career Selection -->
+  <div id="career-select" class="page">
+    <div class="page-container glass wide">
+      <h2>👔 เลือกอาชีพของคุณ</h2>
+      <p class="subtitle">ผู้เล่น: <span id="current-selector"></span></p>
+      <div class="careers-grid" id="careers-grid"></div>
+    </div>
+  </div>
+
+  <!-- Main Game Board -->
+  <div id="game" class="page">
+    <div class="game-header">
+      <div class="round-info">
+        <span>รอบที่ <strong id="current-round">1</strong>/12</span>
+      </div>
+      <div class="turn-info">
+        ตาของ: <strong id="current-player-name">-</strong>
+      </div>
+      <button class="btn btn-sm btn-outline" onclick="showScoreboard()">📊 คะแนน</button>
+    </div>
+
+    <div class="game-layout">
+      <!-- Player Sidebar -->
+      <aside class="players-panel" id="players-panel"></aside>
+
+      <!-- Board -->
+      <main class="board-area">
+        <div class="board" id="game-board"></div>
+        <div class="dice-area">
+          <button class="dice-btn" id="roll-btn" onclick="rollDice()">
+            <span class="dice" id="dice-face">🎲</span>
+            <span>ทอยลูกเต๋า</span>
+          </button>
+          <div class="dice-result hidden" id="dice-result"></div>
+        </div>
+      </main>
+
+      <!-- Action Log -->
+      <aside class="log-panel">
+        <h3>📜 บันทึกเกม</h3>
+        <div class="log-content" id="game-log"></div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal glass" id="modal-content"></div>
+  </div>
+
+  <!-- Scoreboard Modal -->
+  <div id="scoreboard-modal" class="modal-overlay hidden">
+    <div class="modal glass wide">
+      <h2>📊 คะแนนปัจจุบัน</h2>
+      <div id="scoreboard-content"></div>
+      <button class="btn btn-primary" onclick="hideScoreboard()">ปิด</button>
+    </div>
+  </div>
+
+  <!-- Game Over -->
+  <div id="game-over" class="page">
+    <div class="page-container glass wide">
+      <h1 class="winner-title">🏆 จบเกม!</h1>
+      <div id="final-results"></div>
+      <button class="btn btn-primary" onclick="location.reload()">เล่นใหม่</button>
+    </div>
+  </div>
+
+  <script src="js/game-data.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
